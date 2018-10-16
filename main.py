@@ -81,18 +81,21 @@ class GetData:
         downloads = []
         uploads = []
         for ip in self.devices:
-            if round(st.ping()) > (int(self.average_ping)*1.5):
-                responses.append('HIGH')
+            ping = st.ping()
+            download = st.download()
+            upload = st.upload()
+            if round(ping) > (int(self.average_ping)*1.5):
+                responses.append('HIGH ' + str(round(ping)) + 'ms')
             else:
-                responses.append('NORMAL')
-            if round(st.download()/1000000) < (int(self.average_download)/2):
-                downloads.append('LOW')
+                responses.append('NORMAL ' + str(round(ping)) + 'ms')
+            if round(download/1000000) < (int(self.average_download)*.75):
+                downloads.append('LOW ' + str(round(download/1000000)) + 'Mbps')
             else:
-                downloads.append('NORMAL')
-            if round(st.upload()/1000000) < (int(self.average_upload)/2):
-                uploads.append('LOW')
+                downloads.append('NORMAL ' + str(round(download/1000000)) + 'Mbps')
+            if round(upload/1000000) < (int(self.average_upload)*.75):
+                uploads.append('LOW ' + str(round(upload/1000000)) + 'Mbps')
             else:
-                uploads.append('NORMAL')
+                uploads.append('NORMAL ' + str(round(upload/1000000)) + 'Mbps')
         hostnames = []
         p = 1
         for ip in self.devices:
