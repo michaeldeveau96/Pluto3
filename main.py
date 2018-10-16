@@ -81,19 +81,26 @@ class GetData:
         downloads = []
         uploads = []
         for ip in self.devices:
-            if round(st.ping()) > int(self.average_ping):
+            if round(st.ping()) > (int(self.average_ping)*1.5):
                 responses.append('HIGH')
             else:
                 responses.append('NORMAL')
-            if round(st.download()/1000000) < int(self.average_download):
+            if round(st.download()/1000000) < (int(self.average_download)/2):
                 downloads.append('LOW')
             else:
                 downloads.append('NORMAL')
-            if round(st.upload()/1000000) < int(self.average_upload):
+            if round(st.upload()/1000000) < (int(self.average_upload)/2):
                 uploads.append('LOW')
             else:
                 uploads.append('NORMAL')
-
+        hostnames = []
+        p = 1
+        for ip in self.devices:
+            if ip == '192.168.0.1':
+                hostnames.append('Router')
+            else:
+                hostnames.append('Computer ' + str(p))
+            p += 1
         x = []
         y = []
         for i in range(0, len(self.devices)):
@@ -107,7 +114,8 @@ class GetData:
         #plt.plot(x, y, '-o')
 
         for i, txt in enumerate(self.devices):
-            txt = 'Device: ' + str(self.devices[i]) + '\n' + \
+            txt = 'Device Name: ' + str(hostnames[i]) + '\n' +\
+                  'Device IP: ' + str(self.devices[i]) + '\n' + \
                   'Ping: ' + str(responses[i]) + '\n' + \
                   'Download: ' + str(downloads[i]) + '\n' + \
                   'Upload: ' + str(uploads[i])
