@@ -114,7 +114,7 @@ class GetData:
         plt.scatter(x, y, s=area, marker='o')
         plt.xticks([])
         plt.yticks([])
-        #plt.plot(x, y, '-o')
+        plt.plot(x, y, '-o')
 
         for i, txt in enumerate(self.devices):
             txt = 'Device Name: ' + str(hostnames[i]) + '\n' +\
