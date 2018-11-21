@@ -1,10 +1,16 @@
-celery
+amqp==2.3.2
+billiard==3.5.0.4
+celery==4.2.1
 cycler==0.10.0
+Django==2.1.3
 kiwisolver==1.0.1
+kombu==4.2.1
 matplotlib==3.0.0
 numpy==1.15.2
 pyparsing==2.2.2
 pyspeedtest==1.2.7
 python-dateutil==2.7.3
 python-nmap==0.6.1
+pytz==2018.7
 six==1.11.0
+vine==1.1.4
