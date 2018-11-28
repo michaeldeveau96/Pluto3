@@ -15,9 +15,11 @@ Including another URLconf
 """
 from __future__ import absolute_import, unicode_literals
 from django.contrib import admin
-from django.urls import path, include
+from django.conf.urls import url
+
+from pluto.views import HomeView
 
 urlpatterns = [
-    path('pluto/', include('pluto.urls')),
-    path('admin/', admin.site.urls),
+    url(r'^$', HomeView.as_view(), name='home'),
+    url(r'^admin/', admin.site.urls),
 ]
