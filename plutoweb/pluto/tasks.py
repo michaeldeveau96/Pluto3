@@ -89,23 +89,29 @@ class GetData(Task):
         responses = []
         downloads = []
         uploads = []
+        phealth = []
+        dhealth = []
+        uhealth = []
         devices = self.devices
         for ip in self.devices:
             ping = st.ping()
             download = st.download()
             upload = st.upload()
+            responses.append(round(ping))
+            downloads.append(round(download/1000000))
+            uploads.append(round(upload/1000000))
             if round(ping) > (int(self.average_ping) * 1.5):
-                responses.append('HIGH ' + str(round(ping)) + 'ms')
+                phealth.append('HIGH')
             else:
-                responses.append('NORMAL ' + str(round(ping)) + 'ms')
+                phealth.append('NORMAL')
             if round(download / 1000000) < (int(self.average_download) * .75):
-                downloads.append('LOW ' + str(round(download / 1000000)) + 'Mbps')
+                dhealth.append('LOW')
             else:
-                downloads.append('NORMAL ' + str(round(download / 1000000)) + 'Mbps')
+                dhealth.append('NORMAL')
             if round(upload / 1000000) < (int(self.average_upload) * .75):
-                uploads.append('LOW ' + str(round(upload / 1000000)) + 'Mbps')
+                uhealth.append('LOW')
             else:
-                uploads.append('NORMAL ' + str(round(upload / 1000000)) + 'Mbps')
+                uhealth.append('NORMAL')
         hostnames = []
         p = 1
         for ip in self.devices:
@@ -120,7 +126,7 @@ class GetData(Task):
             x.append(random.random())
             y.append(random.random())
         area = 20
-        return responses, downloads, uploads, hostnames, x, y, area, devices
+        return responses, downloads, uploads, hostnames, phealth, dhealth, uhealth, self.devices
         '''
         plt.scatter(x, y, s=area, marker='o')
         plt.xticks([])

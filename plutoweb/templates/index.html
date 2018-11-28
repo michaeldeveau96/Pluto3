@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+
+<script>
+
+    {% block jquery %}
+    var endpoint = '/api/chart/data/'
+    var defaultData = []
+    var labels = []
+    $.ajax({
+        method: "GET",
+        url: endpoint,
+        success: function(data){
+            labels = data.hostnames
+            ips = data.IP
+            downloadData = data.download
+            pingData = data.ping
+            uploadData = data.uploads
+            pbackground = data.pbackgroundColor
+            pborder = data.pborderColor
+            dbackground = data.dbackgroundColor
+            dborder = data.dborderColor
+            ubackground = data.ubackgroundColor
+            uborder = data.uborderColor
+            setChart()
+
+        },
+        error: function(error_data){
+            console.log("error")
+            console.log(error_data)
+        }
+    })
+function setChart(){
+    var ctx = document.getElementById("myChart").getContext('2d');
+    var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: ips,
+        datasets: [{
+            label: 'Response Time (ms) ',
+            data: pingData,
+            backgroundColor: pbackground,
+            borderColor: pborder,
+            borderWidth: 1,
+        }, {
+            label: 'Download Speed (Mbps) ',
+            data: downloadData,
+            backgroundColor: dbackground,
+            borderColor: dborder,
+            borderWidth: 1,
+        }, {
+            label: 'Upload Speed (Mbps) ',
+            data: uploadData,
+            backgroundColor: ubackground,
+            borderColor: uborder,
+            borderWidth: 1,
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                scaleLabel: {
+                    display: true,
+                    labelString: 'Speed'
+                },
+                ticks: {
+                    beginAtZero:true
+                }
+            }]
+        }
+    }
+});
+}
+
+
+
+    {% endblock %}
+</script>
+
+{% block content %}
+
+<div class="row">
+    <div class="col-sm-12" style="background-color:orange;">
+        <div id="title" style="float:left;">
+            <h1>Pluto - Network Scanning Tool</h1>
+        </div>
+        <div id="logo" style="float:right;">
+            {% load static %}
+            <img src="{% static 'plutologo.png' %}" width="50" height="50" style="float:right;margin-top:10px">
+        </div>
+    </div>
+    <div class="col-sm-12">
+        <h4>Welcome to Pluto!</h4>
+        <p>
+            <br>Pluto allows for constant and reliable observation of your network. You can view the general health of your network
+            as well as the devices that are currenting connected.<br><br>To run our tool simply click on the "Pluto" button below
+            and we will begin getting data from your network.<br><br>Good response times and speeds will be display <span style="color:green;">green</span> while, abnormal
+            response times and speeds will be displayed in <span style="color:red;">red</span>.
+        </p>
+        <hr style="border-style:solid;background-color:orange;height:1px;">
+    </div>
+    <div class="col-sm-12" align="center">
+        <button type="button" onclick="build_chart()"
+                style="width:100px;height:40px;border-radius:10px;background-color:orange;border:0;color:white;">
+                Pluto
+        </button>
+    </div>
+    <div class="col-sm-12">
+        <canvas id="myChart" width="400" height="300"></canvas>
+    </div>
+</div>
+
+{% endblock content %}

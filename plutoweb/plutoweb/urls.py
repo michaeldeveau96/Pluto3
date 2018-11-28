@@ -14,12 +14,19 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from __future__ import absolute_import, unicode_literals
+from django.conf import settings
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.conf.urls import url
 
-from pluto.views import HomeView
+from pluto.views import HomeView, get_data, ChartData
 
 urlpatterns = [
     url(r'^$', HomeView.as_view(), name='home'),
+    url(r'^api/data/$', get_data, name='api-data'),
+    url(r'^api/chart/data/$', ChartData.as_view()),
     url(r'^admin/', admin.site.urls),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root = settings.STATIC_ROOT)
