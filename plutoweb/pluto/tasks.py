@@ -1,11 +1,13 @@
 from __future__ import absolute_import, unicode_literals
-from celery import shared_task, Task
+
 import time
+
+import matplotlib
 import nmap
 import pyspeedtest
-import matplotlib
+from celery import Task
+
 matplotlib.use('agg')
-import matplotlib.pyplot as plt
 import random
 
 class GetData(Task):
@@ -126,26 +128,5 @@ class GetData(Task):
             x.append(random.random())
             y.append(random.random())
         area = 20
-        return responses, downloads, uploads, hostnames, phealth, dhealth, uhealth, self.devices
-        '''
-        plt.scatter(x, y, s=area, marker='o')
-        plt.xticks([])
-        plt.yticks([])
-        plt.plot(x, y, '-o')
+        return responses, downloads, uploads, hostnames, phealth, dhealth, uhealth, self.devices, x, y
 
-        for i, txt in enumerate(self.devices):
-            txt = 'Device Name: ' + str(hostnames[i]) + '\n' + \
-                  'Device IP: ' + str(self.devices[i]) + '\n' + \
-                  'Ping: ' + str(responses[i]) + '\n' + \
-                  'Download: ' + str(downloads[i]) + '\n' + \
-                  'Upload: ' + str(uploads[i])
-            plt.annotate(txt, (x[i], y[i]))
-
-        canvas = FigureCanvasAgg(f)
-        response = HttpResponse(content_type='image/png')
-        canvas.print_png(response)
-        end = time.time()
-        ptime = end - start
-        print('Calculated average upload. Finished in {} seconds.'.format(ptime))
-        print('====================================================')
-        return response'''

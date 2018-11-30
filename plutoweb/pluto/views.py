@@ -1,19 +1,12 @@
 from __future__ import absolute_import, unicode_literals
-from django.views.generic import View
-from django.shortcuts import render
+
 from django.http import JsonResponse
-from django.template import loader
-from .tasks import GetData
-import random
-import datetime
-import io
-
-from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
-import matplotlib.pyplot as plt
-from matplotlib.dates import DateFormatter
-
-from rest_framework.views import APIView
+from django.shortcuts import render
+from django.views.generic import View
 from rest_framework.response import Response
+from rest_framework.views import APIView
+
+from .tasks import GetData
 
 
 # Create your views here.
@@ -28,6 +21,7 @@ def get_data(request, *args, **kwargs):
     }
     return JsonResponse(data)
 
+# REST framework to call tasks
 class ChartData(APIView):
 
     authentication_classes = []
@@ -46,6 +40,8 @@ class ChartData(APIView):
         dhealth = res[5]
         uhealth = res[6]
         devices = res[7]
+        x = res[8]
+        y = res[9]
 
         pbackgroundColor = []
         pborderColor = []
@@ -86,8 +82,11 @@ class ChartData(APIView):
             "dborderColor": dborderColor,
             "ubackgroundColor": ubackgroundColor,
             "uborderColor": uborderColor,
+            "x": x,
+            "y": y
 
         }
+
         return Response(data)
 
 

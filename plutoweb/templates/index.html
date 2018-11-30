@@ -3,33 +3,44 @@
 <script>
 
     {% block jquery %}
-    var endpoint = '/api/chart/data/'
-    var defaultData = []
-    var labels = []
-    $.ajax({
-        method: "GET",
-        url: endpoint,
-        success: function(data){
-            labels = data.hostnames
-            ips = data.IP
-            downloadData = data.download
-            pingData = data.ping
-            uploadData = data.uploads
-            pbackground = data.pbackgroundColor
-            pborder = data.pborderColor
-            dbackground = data.dbackgroundColor
-            dborder = data.dborderColor
-            ubackground = data.ubackgroundColor
-            uborder = data.uborderColor
-            setChart()
 
-        },
-        error: function(error_data){
-            console.log("error")
-            console.log(error_data)
-        }
-    })
+//  Get data on button click from REST call
+    $('#btn').click(function() {
+        var endpoint = '/api/chart/data/'
+        var defaultData = []
+        var labels = []
+        $.ajax({
+            method: "GET",
+            url: endpoint,
+            success: function(data){
+                labels = data.hostnames
+                ips = data.IP
+                downloadData = data.download
+                pingData = data.ping
+                uploadData = data.uploads
+                pbackground = data.pbackgroundColor
+                pborder = data.pborderColor
+                dbackground = data.dbackgroundColor
+                dborder = data.dborderColor
+                ubackground = data.ubackgroundColor
+                uborder = data.uborderColor
+                x = data.x
+                y = data.y
+                setChart()
+
+            },
+            error: function(error_data){
+                console.log("error")
+                console.log(error_data)
+            }
+        });
+    });
+
+//  Draw Charts
+
 function setChart(){
+
+    //  Ping Response Chart
     var ctx = document.getElementById("myChart").getContext('2d');
     var myChart = new Chart(ctx, {
     type: 'bar',
@@ -57,6 +68,9 @@ function setChart(){
         }
     }
 });
+
+//  Download Chart
+
     var ctx = document.getElementById("myChart2").getContext('2d');
     var myChart = new Chart(ctx, {
     type: 'bar',
@@ -84,6 +98,9 @@ function setChart(){
         }
     }
 });
+
+//  Upload Chart
+
     var ctx = document.getElementById("myChart3").getContext('2d');
     var myChart = new Chart(ctx, {
     type: 'bar',
@@ -112,6 +129,8 @@ function setChart(){
         }
     }
 });
+
+//  Chart for all data
 
     var ctx = document.getElementById("myChart4").getContext('2d');
     var myChart = new Chart(ctx, {
@@ -152,8 +171,39 @@ function setChart(){
         }
     }
 });
-}
 
+//  Scatter Plot for future development
+
+//      let coords = x.map( (v,i) => ({x: v, y: y[i]}))
+//      var ctx = document.getElementById("myChart5").getContext('2d');
+//      var myChart = new Chart(ctx, {
+//      type: 'scatter',
+//      data: {
+//          labels: ips,
+//          datasets: [{
+//              label: 'Topology',
+//              data: coords
+//          }]
+//      },
+//      options: {
+//          tooltips: {
+//              callbacks: {
+//                  label: function(tooltipItem, data) {
+//                      var label = data.labels[tooltipItem.index];
+//                      // return label + ': (' + ips + '\n' + pingData + '\n' + downloadData + '\n' + uploadData + ')';
+//                      return label + ': (' + tooltipItem.xLabel + '\n' + tooltipItem.yLabel + ')';
+//                  }
+//              }
+//          },
+//          scales: {
+//              xAxes: [{
+//                  type: 'linear',
+//                  position: 'bottom'
+//              }]
+//          }
+//      }
+//  });
+//  }
 
 
     {% endblock %}
@@ -182,8 +232,7 @@ function setChart(){
         <hr style="border-style:solid;background-color:orange;height:1px;">
     </div>
     <div class="col-sm-12" align="center">
-        <button type="button" onclick="build_chart()"
-                style="width:100px;height:40px;border-radius:10px;background-color:orange;border:0;color:white;">
+        <button id="btn" type="button" style="width:100px;height:40px;border-radius:10px;background-color:orange;border:0;color:white;" value="button">
                 Pluto
         </button>
     </div>
@@ -208,6 +257,9 @@ function setChart(){
     <div class="col-sm-12">
         <canvas id="myChart4" width="400" height="300"></canvas>
     </div>
+    <!--<div class="col-sm-12">
+        <canvas id="myChart5" width="400" height="300"></canvas>
+    </div>-->
 </div>
 
 {% endblock content %}
