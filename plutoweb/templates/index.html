@@ -41,6 +41,89 @@ function setChart(){
             backgroundColor: pbackground,
             borderColor: pborder,
             borderWidth: 1,
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                scaleLabel: {
+                    display: true,
+                    labelString: 'Response Time (ms)'
+                },
+                ticks: {
+                    beginAtZero:true
+                }
+            }]
+        }
+    }
+});
+    var ctx = document.getElementById("myChart2").getContext('2d');
+    var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: ips,
+        datasets: [{
+            label: 'Download Speed (Mbps) ',
+            data: downloadData,
+            backgroundColor: dbackground,
+            borderColor: dborder,
+            borderWidth: 1,
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                scaleLabel: {
+                    display: true,
+                    labelString: 'Download Speed (Mbps)'
+                },
+                ticks: {
+                    beginAtZero:true
+                }
+            }]
+        }
+    }
+});
+    var ctx = document.getElementById("myChart3").getContext('2d');
+    var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: ips,
+        datasets: [{
+            label: 'Upload Speed (Mbps) ',
+            data: uploadData,
+            backgroundColor: ubackground,
+            borderColor: uborder,
+            borderWidth: 1,
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                scaleLabel: {
+                    display: true,
+                    labelString: 'Upload Speed (Mbps)',
+                },
+                ticks: {
+                    beginAtZero:true,
+
+                }
+            }]
+        }
+    }
+});
+
+    var ctx = document.getElementById("myChart4").getContext('2d');
+    var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: ips,
+        datasets: [{
+            label: 'Response Time (ms) ',
+            data: pingData,
+            backgroundColor: pbackground,
+            borderColor: pborder,
+            borderWidth: 1,
         }, {
             label: 'Download Speed (Mbps) ',
             data: downloadData,
@@ -105,7 +188,25 @@ function setChart(){
         </button>
     </div>
     <div class="col-sm-12">
-        <canvas id="myChart" width="400" height="300"></canvas>
+        <div class="col-sm-6">
+            <canvas id="myChart" width="400" height="300"></canvas>
+        </div>
+        <div class="col-sm-6">
+            <canvas id="myChart2" width="400" height="300"></canvas>
+        </div>
+        <div class="col-sm-3" align="center">
+            <canvas width="400" height="300"></canvas>
+        </div>
+        <div class="col-sm-6" align="center">
+            <canvas id="myChart3" width="400" height="300"></canvas>
+        </div>
+    </div>
+    <div class="col-sm-12" align="center">
+        <hr style="border-style:solid;background-color:orange;height:1px;">
+        <label>Totals</label>
+    </div>
+    <div class="col-sm-12">
+        <canvas id="myChart4" width="400" height="300"></canvas>
     </div>
 </div>
 

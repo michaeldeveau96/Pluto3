@@ -84,8 +84,8 @@ class ChartData(APIView):
             "pborderColor": pborderColor,
             "dbackgroundColor": dbackgroundColor,
             "dborderColor": dborderColor,
-            "ubackgroundColor": dbackgroundColor,
-            "uborderColor": dborderColor,
+            "ubackgroundColor": ubackgroundColor,
+            "uborderColor": uborderColor,
 
         }
         return Response(data)
